@@ -22,7 +22,7 @@
                 @else
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="https://s2.ax1x.com/2019/11/21/M5K3pd.jpg" class="img-responsive img-circle" width="30px" height="30px">
+                                <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-responsive img-circle" width="30px" height="30px">
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
