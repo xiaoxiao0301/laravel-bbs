@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,3 +38,5 @@ Route::post('password/reset', [ResetPasswordController::class,'reset'])->name('p
 Route::get('email/verify', [VerificationController::class,'show'])->name('verification.notice');
 Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 Route::get('email/resend', [VerificationController::class,'resend'])->name('verification.resend');
+
+Route::resource('users', UsersController::class, ['only' => ['show', 'update', 'edit']]);
