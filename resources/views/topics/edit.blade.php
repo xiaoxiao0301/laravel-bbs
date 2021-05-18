@@ -16,6 +16,7 @@
                         <div class="form-group">
                             <input class="form-control" type="text" name="title" value="{{ old('title', $topic->title ) }}" placeholder="请填写标题" required />
                         </div>
+
                         <div class="form-group">
                             <textarea name="body" class="form-control" id="editor" rows="6" placeholder="请填入至少三个字符的内容。" required>{{ old('body', $topic->body ) }}</textarea>
                         </div>

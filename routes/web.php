@@ -47,3 +47,5 @@ Route::resource('users', UsersController::class, ['only' => ['show', 'update', '
 Route::resource('topics', TopicsController::class, ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
 // 分类
 Route::resource('categories', CategoriesController::class, ['only' => 'show']);
+
+Route::get('topics/{topic}/{slug?}', [TopicsController::class, 'show'])->name('topics.show');
