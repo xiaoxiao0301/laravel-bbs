@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Topic;
+use App\Observers\TopicObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -28,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        // 注册观察者
+        Topic::observe(TopicObserver::class);
     }
 }
