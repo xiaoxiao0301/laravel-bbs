@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $topic->title)
+@section('description', $topic->excerpt)
 @section('content')
     <div class="row">
 
@@ -56,7 +57,6 @@
                             </form>
                         </div>
                     @endcan
-
                 </div>
             </div>
 
