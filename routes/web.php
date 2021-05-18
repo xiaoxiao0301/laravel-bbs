@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,4 +40,8 @@ Route::get('email/verify', [VerificationController::class,'show'])->name('verifi
 Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 Route::get('email/resend', [VerificationController::class,'resend'])->name('verification.resend');
 
+// 用户资料
 Route::resource('users', UsersController::class, ['only' => ['show', 'update', 'edit']]);
+
+// 话题
+Route::resource('topics', TopicsController::class, ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
