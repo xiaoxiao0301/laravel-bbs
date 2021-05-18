@@ -49,3 +49,4 @@ Route::resource('topics', TopicsController::class, ['only' => ['index', 'create'
 Route::resource('categories', CategoriesController::class, ['only' => 'show']);
 
 Route::get('topics/{topic}/{slug?}', [TopicsController::class, 'show'])->name('topics.show');
+Route::post('upload_image', [TopicsController::class, 'uploadImage'])->name('topics.upload_image');

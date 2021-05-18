@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\TopicRequest;
 use App\Models\Category;
 use App\Models\Topic;
@@ -44,5 +45,31 @@ class TopicsController extends Controller
     public function edit(Topic $topic)
     {
         return view('topics.edit', compact('topic'));
+    }
+
+    /**
+     * 上传文件
+     * @param Request $request
+     * @param ImageUploadHandler $imageUploadHandler
+     * @return array
+     */
+    public function uploadImage(Request $request, ImageUploadHandler $imageUploadHandler)
+    {
+        $data = [
+            'success' => false,
+            'msg' => '上传失败',
+            'file_path' => ''
+        ];
+        $file = $request->upload_file;
+        if ($file) {
+            $result = $imageUploadHandler->save($file, 'topics', Auth::id(), 1024);
+            if ($result) {
+                $data['file_path'] = $result['path'];
+                $data['success'] = true;
+                $data['msg'] = '上传成功';
+            }
+        }
+
+        return $data;
     }
 }
