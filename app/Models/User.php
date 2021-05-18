@@ -44,4 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * 用户关联话题模型，一个用户可以发表多篇话题，一对多
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
+
 }
