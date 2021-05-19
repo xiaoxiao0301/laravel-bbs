@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Reply;
 use App\Models\Topic;
+use App\Observers\ReplyObserver;
 use App\Observers\TopicObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         // 注册观察者
         Topic::observe(TopicObserver::class);
+        Reply::observe(ReplyObserver::class);
     }
 }
