@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable {
+        notify as protected laravelNotify;
+    }
+
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +51,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public function notify($instance)
+    {
+        // 评论人是当前登录的用户不需要发送通知
+        if ($this->id == Auth::id()) {
+            return;
+        }
+        // 只有数据库类型通知才需提醒，直接发送 Email 或者其他的都 Pass
+        if (method_exists($instance, 'toDatabase')) {
+            // 用户未读数加1
+            $this->increment('notification_count');
+        }
+
+        $this->laravelNotify($instance);
+    }
 
     /**
      * 用户关联话题模型，一个用户可以发表多篇话题，一对多
