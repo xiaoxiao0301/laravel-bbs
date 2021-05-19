@@ -52,6 +52,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    /**
+     * 重写发送通知方法
+     * @param $instance
+     */
     public function notify($instance)
     {
         // 评论人是当前登录的用户不需要发送通知
@@ -65,6 +69,16 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $this->laravelNotify($instance);
+    }
+
+    /**
+     * 将所有未读消息设置为已读
+     */
+    public function markAsRead()
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
     }
 
     /**
