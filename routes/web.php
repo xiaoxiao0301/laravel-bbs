@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\RepliesController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PagesController::class, 'root'])->name('root');
-
 // 用户身份验证相关的路由
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
@@ -40,13 +40,13 @@ Route::post('password/reset', [ResetPasswordController::class,'reset'])->name('p
 Route::get('email/verify', [VerificationController::class,'show'])->name('verification.notice');
 Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 Route::get('email/resend', [VerificationController::class,'resend'])->name('verification.resend');
-
 // 用户资料
 Route::resource('users', UsersController::class, ['only' => ['show', 'update', 'edit']]);
 // 话题
 Route::resource('topics', TopicsController::class, ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
-// 分类
-Route::resource('categories', CategoriesController::class, ['only' => 'show']);
-
 Route::get('topics/{topic}/{slug?}', [TopicsController::class, 'show'])->name('topics.show');
 Route::post('upload_image', [TopicsController::class, 'uploadImage'])->name('topics.upload_image');
+// 分类
+Route::resource('categories', CategoriesController::class, ['only' => 'show']);
+// 话题回复
+Route::resource('replies', RepliesController::class, ['only' => ['store', 'destroy']]);
