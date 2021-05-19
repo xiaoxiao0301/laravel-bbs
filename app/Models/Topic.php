@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Topic extends Model
 {
@@ -25,28 +27,38 @@ class Topic extends Model
 
     /**
      * 一个话题属于一个分类，一对一关系
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
     /**
      * 一个话题属于一个用户，一对一关系
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
+     * 一篇帖子下有多条回复
+     * @return HasMany
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+
+    /**
      * 按照创建时间排序
-     * @param Builder  $query
+     * @param Builder $query
      * @return Builder
      */
-    public function scopeRecent($query)
+    public function scopeRecent(Builder $query): Builder
     {
         return $query->orderBy('created_at', 'desc');
     }
@@ -56,7 +68,7 @@ class Topic extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeRecentReplied($query)
+    public function scopeRecentReplied(Builder $query): Builder
     {
         return $query->orderBy('updated_at', 'desc');
     }
@@ -65,7 +77,7 @@ class Topic extends Model
      * @param Builder $query
      * @param string $order
      */
-    public function scopeWithOrder($query, $order)
+    public function scopeWithOrder(Builder $query, string $order): Builder
     {
         switch ($order) {
             case 'recent':
@@ -79,7 +91,7 @@ class Topic extends Model
         return $query->with('user', 'category');
     }
 
-    public function link($params = [])
+    public function link($params = []): string
     {
         return route('topics.show', array_merge([$this->id, $this->slug], $params));
     }
