@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Link;
 use App\Models\Reply;
 use App\Models\Topic;
+use App\Models\User;
 use App\Observers\LinkObserver;
 use App\Observers\ReplyObserver;
 use App\Observers\TopicObserver;
+use App\Observers\UserObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -38,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
         Topic::observe(TopicObserver::class);
         Reply::observe(ReplyObserver::class);
         Link::observe(LinkObserver::class);
+        User::observe(UserObserver::class);
     }
 }
