@@ -38,6 +38,7 @@ trait LastActivedAtHelper
             // 只有当用户存在时才更新到数据库中
             if ($user= $this->find($user_id)) {
                 $user->last_actived_at = $actived_at;
+                $user->timestamps = false;
                 $user->save();
             }
             // 以数据库为中心的存储，既已同步，即可删除
