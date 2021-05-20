@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Link;
 use App\Models\Reply;
 use App\Models\Topic;
+use App\Observers\LinkObserver;
 use App\Observers\ReplyObserver;
 use App\Observers\TopicObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
@@ -35,5 +37,6 @@ class AppServiceProvider extends ServiceProvider
         // 注册观察者
         Topic::observe(TopicObserver::class);
         Reply::observe(ReplyObserver::class);
+        Link::observe(LinkObserver::class);
     }
 }

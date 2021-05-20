@@ -19,7 +19,7 @@ trait ActiveUserHelper
     protected $passDays = 7;
     protected $userNumbers = 6;
 
-    protected $cacheKey = 'lara_bbs_active_users';
+    protected $cacheKey = 'bbs_active_users';
     protected $cacheExpires = 65 * 60;
 
     public function getActiveUsers()
