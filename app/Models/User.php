@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ActiveUserHelper;
+use App\Models\Traits\LastActivedAtHelper;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use LastActivedAtHelper;
     use ActiveUserHelper;
     use HasFactory;
     use Notifiable {
