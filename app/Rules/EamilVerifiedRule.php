@@ -25,7 +25,7 @@ class EamilVerifiedRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $emailPattern = "/[A-Za-z0-9\u4e00-\u9fa5]+@(qq.com|163.com|sina.com|gmail.com)/";
+        $emailPattern = "/[A-Za-z0-9\x{4e00}-\x{9fa5}]+@(qq.com|163.com|sina.com|gmail.com)/u";
         preg_match($emailPattern, $value, $result);
         if ($result) {
             return true;
