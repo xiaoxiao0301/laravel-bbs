@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -112,5 +114,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAuthorOf(Model $model): bool
     {
         return $this->id == $model->user_id;
+    }
+
+
+    /**
+     * 密码修改器
+     * @param $value
+     */
+    public function setPasswordAttribute($value)
+    {
+        if (strlen($value) != 60) {
+            // 不是重置密码是Hash:make加密
+            $value = Hash::make($value);
+        }
+        $this->attributes['password'] = $value;
     }
 }
