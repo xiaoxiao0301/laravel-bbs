@@ -104,11 +104,11 @@ class UserController extends AdminController
             if ($form->isEditing()) {
                 $form->display('id');
                 $form->text('name')->rules('required|min:4');
-                $form->text('email')->rules('required|email|regex:/[A-Za-z0-9\x{4e00}-\x{9fa5}]+@(qq.com|163.com|sina.com|gmail.com)/u',[
-                    'regex' => '格式错误或者邮箱必须是qq,163,gmail,sina之一'
-                ]);
+                $form->text('email')->rules('required|email');
+                $form->password('password')->rules('required|min:6');
                 $form->text('introduction');
-                $form->image('avatar');
+                $form->image('avatar')->rules('required') ->accept('jpg,png,gif,jpeg')
+                    ->move('images/avatars')->uniqueName()->saveFullUrl();
                 // 隐藏列表按钮
                 $form->disableListButton(false);
                 $form->disableViewButton(false);
