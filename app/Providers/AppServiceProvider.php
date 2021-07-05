@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Config;
 use App\Models\Link;
 use App\Models\Reply;
 use App\Models\Topic;
@@ -12,6 +13,7 @@ use App\Observers\TopicObserver;
 use App\Observers\UserObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Reply::observe(ReplyObserver::class);
         Link::observe(LinkObserver::class);
         User::observe(UserObserver::class);
+        // 视图共享变量
+        View::share('configs', Config::first());
     }
 }

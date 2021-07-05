@@ -24,8 +24,7 @@ class TopicsController extends Controller
         $topics = $topic->withOrder($request->order?? '')->paginate(20);
         $activeUsers = $user->getActiveUsers();
         $links = $link->getAllCached();
-        $configs = $this->getConfig();
-        return view('topics.index', compact('topics', 'activeUsers', 'links', 'configs'));
+        return view('topics.index', compact('topics', 'activeUsers', 'links'));
     }
 
     public function show(Request $request, Topic $topic)
@@ -98,15 +97,5 @@ class TopicsController extends Controller
         }
 
         return $data;
-    }
-
-
-    /**
-     * 获取后台配置的站点信息
-     * @return mixed
-     */
-    private function getConfig()
-    {
-       return Config::first();
     }
 }
