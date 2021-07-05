@@ -17,5 +17,5 @@ mix.js('resources/js/app.js', 'public/js')
     .copyDirectory('resources/editor/js', 'public/js');
 
 mix.browserSync({
-    proxy: 'local.laravel.bbs.cn'
+    proxy: 'laravel.bbs.cn'
 });

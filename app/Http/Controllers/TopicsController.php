@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\TopicRequest;
 use App\Models\Category;
+use App\Models\Config;
 use App\Models\Link;
 use App\Models\Topic;
 use App\Models\User;
@@ -23,7 +24,8 @@ class TopicsController extends Controller
         $topics = $topic->withOrder($request->order?? '')->paginate(20);
         $activeUsers = $user->getActiveUsers();
         $links = $link->getAllCached();
-        return view('topics.index', compact('topics', 'activeUsers', 'links'));
+        $configs = $this->getConfig();
+        return view('topics.index', compact('topics', 'activeUsers', 'links', 'configs'));
     }
 
     public function show(Request $request, Topic $topic)
@@ -96,5 +98,15 @@ class TopicsController extends Controller
         }
 
         return $data;
+    }
+
+
+    /**
+     * 获取后台配置的站点信息
+     * @return mixed
+     */
+    private function getConfig()
+    {
+       return Config::first();
     }
 }

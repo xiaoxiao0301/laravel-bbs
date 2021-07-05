@@ -18,5 +18,13 @@ Route::group([
     $router->resource('users', 'UserController');
     // 链接
     $router->resource('links', 'LinkController');
+    // 分类
+    $router->resource('categories', 'CategoryController');
+    // 话题
+    $router->resource('topics', 'TopicController');
+    // 回复
+    $router->resource('replies', 'ReplyController');
+    // 站点配置
+    $router->resource('config', 'ConfigController');
 
 });
