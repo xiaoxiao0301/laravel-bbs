@@ -30,4 +30,12 @@ class VerificationCodeRequest extends FormRequest
             ]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'phone.required' => '手机号不能为空。',
+            'phone.regex' => '手机号错误。',
+        ];
+    }
 }

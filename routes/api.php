@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\VerificationCodesController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,6 @@ use Illuminate\Support\Facades\Route;
 // 获取短信验证码
 Route::post('verificationCodes', [VerificationCodesController::class, 'store'])->name('api.verificationCodes.store');
 
+// 用户注册
+Route::post('users', [UsersController::class, 'store'])->name('api.users.store');
 
