@@ -16,6 +16,3 @@ mix.js('resources/js/app.js', 'public/js')
     .copyDirectory('resources/editor/css', 'public/css')
     .copyDirectory('resources/editor/js', 'public/js');
 
-mix.browserSync({
-    proxy: 'laravel.bbs.cn'
-});
