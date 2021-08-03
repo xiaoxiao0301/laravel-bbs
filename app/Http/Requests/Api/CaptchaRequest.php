@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api;
 
 
-class VerificationCodeRequest extends BaseRequest
+class CaptchaRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +23,21 @@ class VerificationCodeRequest extends BaseRequest
     public function rules()
     {
         return [
-            'captcha_key' => 'required|string',
-            'captcha_code' => 'required|string',
+            'phone' => [
+                'required',
+                'regex:/^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$/',
+            ]
         ];
     }
 
-    public function attributes()
+    /**
+     * @return array
+     */
+    public function messages()
     {
         return [
-            'captcha_key' => '图片验证码 key',
-            'captcha_code' => '图片验证码',
+            'phone.required' => '手机号不能为空。',
+            'phone.regex' => '手机号格式错误。',
         ];
     }
 }

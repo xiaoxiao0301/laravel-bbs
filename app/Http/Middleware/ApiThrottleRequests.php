@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequests;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiThrottleRequests extends ThrottleRequests
@@ -45,7 +46,7 @@ class ApiThrottleRequests extends ThrottleRequests
         if ($this->limiter->tooManyAttempts($key, $maxAttempts)) {
             //throw $this->buildException($key, $maxAttempts);
             // 原来的是抛出异常,修改成直接返回
-            return $this->buildException($key, $maxAttempts);
+            return $this->buildException($request, $key, $maxAttempts);
         }
         //去掉 `* 60` 限制秒级,加上去限制分钟
         //$this->limiter->hit($key, $decayMinutes);
@@ -60,31 +61,44 @@ class ApiThrottleRequests extends ThrottleRequests
     }
 
     /**
-     * @param Request $key
-     * @param string $maxAttempts
-     * @return \Illuminate\Http\Exceptions\HttpResponseException|\Illuminate\Http\Exceptions\ThrottleRequestsException|\Symfony\Component\HttpFoundation\Response
+     * Create a 'too many attempts' exception.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $key
+     * @param  int  $maxAttempts
+     * @param  callable|null  $responseCallback
      */
-    protected function buildException($key, $maxAttempts)
+    protected function buildException($request, $key, $maxAttempts, $responseCallback = null)
     {
         $retryAfter = $this->limiter->availableIn($key);
 
         //要返回的数据
         $message = json_encode([
-//            'code' => 429,
+            'code' => 429,
 //            'data' => null,
             'message' => '您的请求太频繁，已被限制请求',
 //            'retryAfter' => $retryAfter,
-        ]);
+        ], 320);
 
         $response = new Response($message, 429);
 
-        return $this->addHeaders(
-            $response, $maxAttempts,
+        $retryAfter = $this->getTimeUntilNextRetry($key);
+
+        $headers = $this->getHeaders(
+            $maxAttempts,
             $this->calculateRemainingAttempts($key, $maxAttempts, $retryAfter),
             $retryAfter
         );
 
+        return is_callable($responseCallback)
+            ? new HttpResponseException($responseCallback($request, $headers))
+            : $this->addHeaders(
+                $response, $maxAttempts,
+                $this->calculateRemainingAttempts($key, $maxAttempts, $retryAfter),
+                $retryAfter
+            );
     }
+
 
     /**
      * @param \Symfony\Component\HttpFoundation\Response $response
