@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use LastActivedAtHelper;
     use ActiveUserHelper;
@@ -35,7 +35,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'introduction',
-        'avatar'
+        'avatar',
+        'weixin_openid',
+        'weixin_unionid',
     ];
 
     /**
@@ -129,5 +131,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $value = Hash::make($value);
         }
         $this->attributes['password'] = $value;
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

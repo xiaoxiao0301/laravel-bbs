@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaptchasController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\VerificationCodesController;
+use App\Http\Controllers\Api\AuthorizationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,9 +33,19 @@ Route::post('users', [UsersController::class, 'store'])->name('api.users.store')
 // 图片验证码
 Route::post('captchas', [CaptchasController::class, 'store'])->name('api.captchas.store');
 
+// 第三方登录
+Route::post('socials/{social_type}/authorizations', [AuthorizationsController::class, 'socialStore'])->name('api.socials.authorizations.store');
 
+// 登录
+Route::post('authorizations', [AuthorizationsController::class, 'store'])->name('api.authorizations.store');
 
+// 刷新token
+Route::put('authorizations/current', [AuthorizationsController::class, 'update'])->name('api.authorizations.update');
+// 删除token
+Route::delete('authorizations/current', [AuthorizationsController::class,'destroy'])->name('api.authorizations.destroy');
 
-
-
-
+// 需要传递token才能使用的接口
+Route::middleware('auth:api')->group(function () {
+    // 当前登录用户信息
+    Route::get('user', [UsersController::class,'me']) ->name('api.user.show');
+});

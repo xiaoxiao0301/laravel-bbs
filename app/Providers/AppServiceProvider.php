@@ -12,6 +12,7 @@ use App\Observers\ReplyObserver;
 use App\Observers\TopicObserver;
 use App\Observers\UserObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -45,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         // 视图共享变量
         View::share('configs', Config::first());
+        // 去掉api-resource顶层嵌套
+        JsonResource::withoutWrapping();
     }
 }

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\User as UserResource;
 
 class UsersController extends Controller
 {
@@ -31,7 +33,20 @@ class UsersController extends Controller
 
         Cache::forget($request->verification_key);
 
-        return response('', 201);
+        return (new UserResource($user))->additional([
+            'meta' => [
+                'access_token' => auth('api')->fromUser($user),
+                'token_type' => 'Bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]
+        ])->response()->setStatusCode(201);
 
     }
+
+    public function me()
+    {
+        $user = auth('api')->user();
+        return new UserResource($user);
+    }
+
 }
