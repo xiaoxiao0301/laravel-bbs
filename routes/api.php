@@ -66,9 +66,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('topics', [TopicsController::class, 'store'])
         ->name('api.topics.store');
     Route::patch('topics/{topic}', [TopicsController::class, 'update'])
-        ->name('api.topics.store');
+        ->name('api.topics.update');
+    Route::delete('topics/{topic}', [TopicsController::class, 'destroy'])
+        ->name('api.topics.destroy');
 });
 
 
 Route::get('categories', [CategoriesController::class, 'index'])
     ->name('api.categories.index');
+
+Route::get('topics', [TopicsController::class, 'index'])
+    ->name('api.topics.index');
+
+Route::get('users/{user}/topics', [TopicsController::class, 'userIndex'])
+    ->name('api.users.topics.index');

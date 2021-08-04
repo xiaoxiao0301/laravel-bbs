@@ -27,6 +27,8 @@ class Topic extends JsonResource
            'slug' => $this->slug,
            'created_at' => $this->created_at->toDateTimeString(),
            'updated_at' => $this->updated_at->toDateTimeString(),
+           'user' => $this->user,
+           'category' => $this->category,
        ];
     }
 }
