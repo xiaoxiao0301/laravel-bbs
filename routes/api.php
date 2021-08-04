@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CaptchasController;
+use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\VerificationCodesController;
@@ -60,3 +61,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('images', [ImagesController::class, 'store'])
         ->name('api.images.store');
 });
+
+
+Route::get('categories', [CategoriesController::class, 'index'])
+    ->name('api.categories.index');

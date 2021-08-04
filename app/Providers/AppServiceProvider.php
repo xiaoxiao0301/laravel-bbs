@@ -47,6 +47,6 @@ class AppServiceProvider extends ServiceProvider
         // 视图共享变量
         View::share('configs', Config::first());
         // 去掉api-resource顶层嵌套
-        JsonResource::withoutWrapping();
+//        JsonResource::withoutWrapping();
     }
 }
