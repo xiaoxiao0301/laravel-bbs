@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaptchasController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\VerificationCodesController;
 use App\Http\Controllers\Api\AuthorizationsController;
@@ -60,6 +61,12 @@ Route::middleware('auth:api')->group(function () {
     // 图片资源
     Route::post('images', [ImagesController::class, 'store'])
         ->name('api.images.store');
+
+    // 发布话题
+    Route::post('topics', [TopicsController::class, 'store'])
+        ->name('api.topics.store');
+    Route::patch('topics/{topic}', [TopicsController::class, 'update'])
+        ->name('api.topics.store');
 });
 
 
