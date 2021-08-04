@@ -10,6 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Topic as TopicResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TopicsController extends Controller
 {
@@ -79,6 +80,11 @@ class TopicsController extends Controller
         return response()->json()->setStatusCode(204);
     }
 
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return AnonymousResourceCollection
+     */
     public function userIndex(User $user, Request $request)
     {
         $topics = $user->topics()->recent()->with('user')->with('category')->paginate(20);
@@ -86,4 +92,9 @@ class TopicsController extends Controller
         return TopicResource::collection($topics);
     }
 
+
+    public function show(Topic $topic)
+    {
+        return new TopicResource($topic);
+    }
 }

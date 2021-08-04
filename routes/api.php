@@ -78,5 +78,8 @@ Route::get('categories', [CategoriesController::class, 'index'])
 Route::get('topics', [TopicsController::class, 'index'])
     ->name('api.topics.index');
 
+Route::get('topics/{topic}', [TopicsController::class, 'show'])
+    ->name('api.topics.show');
+
 Route::get('users/{user}/topics', [TopicsController::class, 'userIndex'])
     ->name('api.users.topics.index');
