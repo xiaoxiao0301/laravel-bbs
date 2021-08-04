@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaptchasController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\RepliesController;
 use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\VerificationCodesController;
@@ -69,6 +70,13 @@ Route::middleware('auth:api')->group(function () {
         ->name('api.topics.update');
     Route::delete('topics/{topic}', [TopicsController::class, 'destroy'])
         ->name('api.topics.destroy');
+
+    // 话题回复
+    Route::post('topics/{topic}/replies', [RepliesController::class, 'store'])
+        ->name('api.topics.replies.store');
+    // 删除回复
+    Route::delete('topics/{topic}/replies/{reply}', [RepliesController::class,'destroy'])
+        ->name('api.topics.replies.destroy');
 });
 
 
@@ -83,3 +91,10 @@ Route::get('topics/{topic}', [TopicsController::class, 'show'])
 
 Route::get('users/{user}/topics', [TopicsController::class, 'userIndex'])
     ->name('api.users.topics.index');
+
+// 话题回复列表
+Route::get('topics/{topic}/replies', [RepliesController::class, 'index'])
+    ->name('api.topics.replies.index');
+// 某个用户的回复列表
+Route::get('users/{user}/replies', [RepliesController::class, 'userIndex'])
+    ->name('api.users.replies.index');
