@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRequest;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,20 @@ class UsersController extends Controller
     public function me()
     {
         $user = auth('api')->user();
+        return new UserResource($user);
+    }
+
+
+    public function update(UserRequest $request)
+    {
+        $user = auth('api')->user();
+        $attributes = $request->only(['name', 'email', 'introduction', 'registration_id']);
+        if ($request->avatar_image_id) {
+            $image = Image::find($request->avatar_image_id);
+            $attributes['avatar'] = $image->path;
+        }
+        $user->update($attributes);
+
         return new UserResource($user);
     }
 
