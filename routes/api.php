@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaptchasController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\RepliesController;
 use App\Http\Controllers\Api\TopicsController;
 use App\Http\Controllers\Api\UsersController;
@@ -77,6 +78,16 @@ Route::middleware('auth:api')->group(function () {
     // 删除回复
     Route::delete('topics/{topic}/replies/{reply}', [RepliesController::class,'destroy'])
         ->name('api.topics.replies.destroy');
+
+    // 通知列表
+    Route::get('user/notifications', [NotificationsController::class, 'index'])
+        ->name('api.user.notifications.index');
+    // 通知统计
+    Route::get('user/notifications/stats', [NotificationsController::class, 'stats'])
+        ->name('api.user.notifications.stats');
+    // 标记消息通知为已读
+    Route::patch('user/read/notifications', [NotificationsController::class, 'read'])
+        ->name('api.user.notifications.read');
 });
 
 
