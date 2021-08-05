@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaptchasController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\LinksController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\RepliesController;
 use App\Http\Controllers\Api\TopicsController;
@@ -109,3 +110,6 @@ Route::get('topics/{topic}/replies', [RepliesController::class, 'index'])
 // 某个用户的回复列表
 Route::get('users/{user}/replies', [RepliesController::class, 'userIndex'])
     ->name('api.users.replies.index');
+
+Route::get('links', [LinksController::class, 'index'])
+    ->name('api.links.index');

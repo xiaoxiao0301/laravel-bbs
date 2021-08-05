@@ -32,6 +32,11 @@ class NotificationsController extends Controller
         return response()->json(['unread_count' => $count]);
     }
 
+    /**
+     * 消息标记已读
+     *
+     * @return JsonResponse|object
+     */
     public function read()
     {
         auth('api')->user()->markAsRead();
