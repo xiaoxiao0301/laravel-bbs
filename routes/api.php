@@ -111,5 +111,9 @@ Route::get('topics/{topic}/replies', [RepliesController::class, 'index'])
 Route::get('users/{user}/replies', [RepliesController::class, 'userIndex'])
     ->name('api.users.replies.index');
 
+// 资源推荐
 Route::get('links', [LinksController::class, 'index'])
     ->name('api.links.index');
+// 活跃用户
+Route::get('actived/users', [UsersController::class, 'activedIndex'])
+    ->name('api.actived.users.index');

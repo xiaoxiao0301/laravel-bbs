@@ -64,4 +64,9 @@ class UsersController extends Controller
         return new UserResource($user);
     }
 
+    public function activedIndex(User $user)
+    {
+        return UserResource::collection($user->getActiveUsers());
+    }
+
 }
